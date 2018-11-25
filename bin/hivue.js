@@ -1,32 +1,45 @@
 #!/usr/bin/env node
 
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
+const chalk = require('chalk')
+const program = require('commander')
+
+program
+  .option('-c, --cnpm', 'Use cnpm install')
+  .option('-init, --initialization', 'Remove sauce')
+  .parse(process.argv)
+
+// function install (command) {
+//   exec(command, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(chalk.red(`🎃 ${error}`))
+//       return
+//     }
+//     if (stdout) {
+//       console.info(`🍺 ${stdout}`)
+//     }
+//     if (stderr) {
+//       console.warn(chalk.yellow(`⚠️ ${stderr}`))
+//     }
+//   })
+// }
 
 function install (command) {
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`🎃 ${error}`)
-      return
-    }
-    if (stdout) {
-      console.info(`🍺 ${stdout}`)
-    }
-    if (stderr) {
-      console.warn(`⚠️ ${stderr}`)
-    }
-  })
+  console.log('🍺 ' + chalk.green(command))
+  console.log(execSync(command).toString())
 }
 
-console.log('🌟 install dependencies')
+console.log(chalk.yellow('🌟 install dependencies'))
 install('npm install graphql --save')
 install('npm install hammerjs --save')
 install('npm install koa --save')
 install('npm install koa-static --save')
+install('npm install lodash --save')
 install('npm install vue --save')
 install('npm install vuex --save')
 install('npm install vue-ls --save')
 
-console.log('🌟 install devDependencies')
+console.log(chalk.yellow('🌟 install devDependencies'))
 install('npm install axios --save-dev')
 install('npm install @babel/core @babel/polyfill @babel/preset-env @babel/preset-stage-0 --save-dev')
 install('npm install clean-webpack-plugin --save-dev')
