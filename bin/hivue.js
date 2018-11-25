@@ -1,45 +1,79 @@
 #!/usr/bin/env node
 
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
+const chalk = require('chalk')
+const program = require('commander')
 
-function install (command) {
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`🎃 ${error}`)
-      return
-    }
-    if (stdout) {
-      console.info(`🍺 ${stdout}`)
-    }
-    if (stderr) {
-      console.warn(`⚠️ ${stderr}`)
-    }
-  })
+program
+  .option('-c, --cnpm', 'Use cnpm install')
+  .option('-i, --initialization', 'Install recommand config file and example')
+  .parse(process.argv)
+
+var dependencies = '--save'
+var npm = program.cnpm ? 'cnpm' : 'npm'
+
+function install (name) {
+  var command = `${npm} install ${name} ${dependencies}`
+  console.log(chalk.cyan(command))
+  console.log(execSync(command).toString())
 }
 
-console.log('🌟 install dependencies')
-install('npm install graphql --save')
-install('npm install hammerjs --save')
-install('npm install koa --save')
-install('npm install koa-static --save')
-install('npm install vue --save')
-install('npm install vuex --save')
-install('npm install vue-ls --save')
+console.log(chalk.yellow('install dependencies'))
+dependencies = '--save'
+install('autoprefixer')
+install('hammerjs')
+install('koa')
+install('koa2-cors')
+install('koa-router')
+install('koa-static')
+install('lodash')
+install('mockjs')
+install('vue')
+install('vuex')
+install('vue-ls')
 
-console.log('🌟 install devDependencies')
-install('npm install axios --save-dev')
-install('npm install @babel/core @babel/polyfill @babel/preset-env @babel/preset-stage-0 --save-dev')
-install('npm install clean-webpack-plugin --save-dev')
-install('npm install copy-webpack-plugin --save-dev')
-install('npm install cross-env --save-dev')
-install('npm install eslint eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard eslint-plugin-vue@next vue-eslint-parser --save-dev')
-install('npm install jest --save-dev')
-install('npm install node-sass --save-dev')
-install('npm install open --save-dev')
-install('npm install retinajs --save-dev')
-install('npm install stylelint stylelint-config-standard --save-dev')
-install('npm install vue-i18n --save-dev')
-install('npm install vue-router --save-dev')
-install('npm install vue-template-compiler --save-dev')
-install('npm install webpack webpack-dev-server css-loader vue-loader babel-loader url-loader file-loader sass-loader mini-css-extract-plugin optimize-css-assets-webpack-plugin html-webpack-plugin --save-dev')
-install('npm install webpack-shell-plugin --save-dev')
+console.log(chalk.yellow('install devDependencies'))
+dependencies = '--save-dev'
+install('axios')
+install('@babel/core')
+install('@babel/polyfill')
+install('@babel/preset-env')
+install('@babel/preset-stage-0')
+install('clean-webpack-plugin')
+install('copy-webpack-plugin')
+install('cross-env')
+install('eslint')
+install('eslint-plugin-import')
+install('eslint-plugin-node')
+install('eslint-plugin-promise')
+install('eslint-plugin-standard')
+install('eslint-config-standard')
+install('eslint-plugin-vue@next')
+install('vue-eslint-parser')
+install('jest')
+install('node-sass')
+install('open')
+install('retinajs')
+install('stylelint')
+install('stylelint-config-standard')
+install('vue-i18n')
+install('vue-router')
+install('vue-template-compiler')
+install('webpack')
+install('webpack-cli')
+install('webpack-dev-server')
+install('postcss-loader')
+install('css-loader')
+install('vue-loader')
+install('babel-loader')
+install('eslint-loader')
+install('uglifyjs-webpack-plugin')
+install('url-loader')
+install('file-loader')
+install('sass-loader')
+install('mini-css-extract-plugin')
+install('optimize-css-assets-webpack-plugin')
+install('html-webpack-plugin')
+install('webpack-shell-plugin')
+
+console.log(chalk.green('🖖 finished'))
