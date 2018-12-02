@@ -95,8 +95,7 @@ module.exports = {
     // 生成的js和css文件时自动加入并生成index.html文件
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      // .hbs是handlebars.js模版名称
-      template: 'index.hbs'
+      template: 'index.html'
     }),
     new CopyWebpackPlugin(
       [
