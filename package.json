@@ -1,37 +1,88 @@
 {
-  "name": "@iflytek/hivue",
-  "version": "0.0.1",
-  "description": "Hi Vuejs",
-  "main": "index.js",
-  "bin": {
-    "hivue": "bin/hivue.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "vuejs"
-  ],
+  "name": "hivue",
+  "version": "1.0.0",
+  "description": "vuejs demo",
   "author": "Kim",
   "license": "MIT",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "unit": "jest",
+    "e2e": "nightwatch",
+    "test": "npm run unit && npm run e2e"
+  },
   "homepage": "https://github.com/kimseongrim/hivue#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimseongrim/hivue.git"
+  },
+  "keywords": [
+    "vuejs",
+    "vue",
+    "demo",
+    "allin"
+  ],
   "bugs": {
     "url": "https://github.com/kimseongrim/hivue/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kimseongrim/hivue.git"
+  "dependencies": {
+    "autoprefixer": "^9.3.1",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "hammerjs": "^2.0.8",
+    "lodash": "^4.17.11",
+    "nightwatch": "^0.9.21",
+    "qs": "^6.6.0",
+    "quill": "^1.3.6",
+    "vue": "^2.5.17",
+    "vue-ls": "^3.2.0",
+    "vuex": "^3.0.1",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "axios": "^0.18.0",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.1",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
-  },
-  "dependencies": {
-    "chalk": "^2.4.1",
-    "commander": "^2.19.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.0.0-beta.5",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.6.0",
+    "mini-css-extract-plugin": "^0.4.5",
+    "node-sass": "^4.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "retinajs": "^2.1.3",
+    "sass-loader": "^7.1.0",
+    "stylelint": "^9.9.0",
+    "stylelint-config-standard": "^18.2.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.2",
+    "vue-eslint-parser": "^4.0.2",
+    "vue-i18n": "^8.4.0",
+    "vue-loader": "^15.4.2",
+    "vue-router": "^3.0.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }
