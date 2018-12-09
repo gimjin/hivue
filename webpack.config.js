@@ -18,11 +18,11 @@ module.exports = {
   entry: ['@babel/polyfill', './src/main.js'],
   output: {
     // 项目的打包文件路径
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, 'dist'),
     // 通过devServer访问路径上的虚拟目录
     publicPath: '/',
     // 打包后的文件名
-    filename: devMode ? '[name].js?[hash:8]' : '[hash].js'
+    filename: devMode ? '[name].js?[hash:8]' : 'scripts/[hash].js'
   },
   mode: devMode ? 'development' : 'production',
   module: {
@@ -46,7 +46,7 @@ module.exports = {
         use: [
           // 类似vue-style-loader和style-loader，区别在于会生成单独的css文件，文件配置参考plugin配置
           devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          devMode ? 'css-loader?sourceMap' : 'css-loader',
           'postcss-loader'
         ]
       },
@@ -54,32 +54,26 @@ module.exports = {
         test: /\.scss$/,
         use: [
           devMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          devMode ? 'css-loader?sourceMap' : 'css-loader',
           'postcss-loader',
-          'sass-loader'
+          devMode ? 'sass-loader?sourceMap' : 'sass-loader'
         ]
       },
       {
         test: /\.(png|jpg|gif)$/,
         loader: 'url-loader',
         options: {
-          // 在dist目录中创建assets目录存放所有图片
-          outputPath: './images',
-          // 浏览器访问地址，如 http://localhost.com/assets/
-          publicPath: '/images/',
           // limit 16Kb 会用base64图片减少http请求数量，所以要求UI设计师提供的多彩icon大小要小于16Kb
           // 雪碧图只有在icon量巨大的项目使用，单彩icon用fontcustom方案
           limit: '16384',
-          name: devMode ? '[name].[ext]?[hash:8]' : '[hash].[ext]'
+          name: devMode ? '[name].[ext]?[hash:8]' : 'images/[hash].[ext]'
         }
       },
       {
         test: /\.(ttf|woff|woff2|eot|svg)$/,
         loader: 'file-loader',
         options: {
-          outputPath: './fonts',
-          publicPath: '/fonts/',
-          name: devMode ? '[name].[ext]?[hash:8]' : '[hash].[ext]'
+          name: devMode ? '[name].[ext]?[hash:8]' : 'fonts/[hash].[ext]'
         }
       }
     ]
@@ -88,7 +82,7 @@ module.exports = {
     new VueLoaderPlugin(),
     // 创建css独立文件
     new MiniCssExtractPlugin({
-      filename: devMode ? '[name].css?[hash:8]' : '[hash].css'
+      filename: devMode ? '[name].css?[hash:8]' : 'styles/[hash].css'
     }),
     // npm run dev/build时删除dist目录，保证没有残留文件
     new CleanWebpackPlugin(['dist']),
@@ -148,10 +142,12 @@ module.exports = {
     }
   },
   resolve: {
+    // import form时可忽略后缀
+    extensions: ['.js', '.vue', '.json'],
     alias: {
-      // Vuejs 区分 Full 与 Runtime-only 版本，加入下面语句选择 Full版本编译
-      vue$: 'vue/dist/vue.esm.js',
-      // e.g. @/assets/images
+      // https://cn.vuejs.org/v2/guide/installation.html#对不同构建版本的解释
+      'vue$': 'vue/dist/vue.esm.js',
+      // e.g. css ~@/assets/images, js @/components
       '@': path.resolve('src')
     }
   },
@@ -187,5 +183,5 @@ module.exports = {
     overlay: true
   },
   // 生产模式时关闭source-map
-  devtool: devMode ? 'source-map' : ''
+  devtool: devMode ? 'eval-source-map' : 'none'
 }
