@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="text-color">
+    <div class="bg">
       {{ say }} 世界
     </div>
     <div>
@@ -25,7 +25,8 @@ export default {
     return {
       say: 'Hello',
       cat: 'Loading',
-      url: 'Loading'
+      url: 'Loading',
+      errored: 'error'
     }
   },
   mounted: function () {
@@ -36,8 +37,7 @@ export default {
           this.url = response.data.url
         })
         .catch(error => {
-          console.log(error)
-          this.errored = true
+          this.errored = error
         })
       axios
         .post('/api/test-cat')
@@ -45,8 +45,7 @@ export default {
           this.cat = response.data.cat
         })
         .catch(error => {
-          console.log(error)
-          this.errored = true
+          this.errored = error
         })
     })
   }
@@ -54,7 +53,7 @@ export default {
 </script>
 
 <style>
-.text-color {
-  color: blue;
+.bg {
+  background: url('~@/assets/icon.png') center;
 }
 </style>
