@@ -23,6 +23,9 @@ $ npm run build
 * Default use bootstrap-vue.
 * Complete webpack configuration.
 * Recommended directory structure.
+* Normalize.css & minireset.css
+* postcss-sprites & Autoprefixer
+* Support websocket(vue-socket.io)
 * And more ...
 
 enjoy～

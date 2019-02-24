@@ -3,10 +3,10 @@
     <div class="bg">
       {{ say }} 世界
     </div>
-    <div>
+    <div class="cat">
       Real server cat: {{ cat }}
     </div>
-    <div>
+    <div class="url">
       Mock server url: {{ url }}
     </div>
     <img
@@ -14,6 +14,15 @@
       src="@/assets/icon.png"
       alt="icon"
     >
+    <div class="card">
+      &nbsp;
+    </div>
+    <div class="message">
+      &nbsp;
+    </div>
+    <div class="google">
+      &nbsp;
+    </div>
   </div>
 </template>
 
@@ -54,6 +63,39 @@ export default {
 
 <style>
 .bg {
+  --myColor: red;
+  color: var(--myColor);
   background: url('~@/assets/icon.png') center;
+}
+
+/* postcss-sprites 不能使用~@别名，因为会被url-loader优先处理 */
+.card {
+  display: block;
+  width: 200px;
+  height: 200px;
+  background: url('assets/sprite/card.jpg');
+}
+
+.message {
+  display: block;
+  width: 174px;
+  height: 174px;
+  background: url('assets/sprite/message.jpg');
+}
+</style>
+<style lang="scss">
+ /* 引入node_modules时需要用到 ～ 符号 */
+@import '~retinajs/dist/_retina.scss';
+
+.google {
+  display: block;
+  width: 300px;
+  height: 99px;
+  @include retina(
+    '~@/assets/google-logo.png',
+    3,
+    cover,
+    center center no-repeat
+  );
 }
 </style>
