@@ -5,7 +5,8 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-    'standard'
+    'standard',
+    'canonical-jsdoc'
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

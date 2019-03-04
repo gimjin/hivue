@@ -78,6 +78,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "eslint": "^5.14.1",
+    "eslint-config-canonical-jsdoc": "^1.2.22",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.16.0",
