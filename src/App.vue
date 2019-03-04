@@ -3,11 +3,11 @@
     <div class="bg">
       {{ say }} 世界
     </div>
-    <div>
+    <div class="cat">
       Real server cat: {{ cat }}
     </div>
-    <div>
-      Mock server url: {{ url }}
+    <div class="url">
+      Mock server list: {{ list }}
     </div>
     <img
       style="width: 10rem; height: 10rem;"
@@ -25,24 +25,24 @@ export default {
     return {
       say: 'Hello',
       cat: 'Loading',
-      url: 'Loading',
+      list: 'Loading',
       errored: 'error'
     }
   },
   mounted: function () {
     this.$nextTick(() => {
       axios
-        .get('/api/test-url')
-        .then(response => {
-          this.url = response.data.url
+        .get('/api/cat')
+        .then(res => {
+          this.cat = res.data.cat
         })
         .catch(error => {
           this.errored = error
         })
       axios
-        .post('/api/test-cat')
-        .then(response => {
-          this.cat = response.data.cat
+        .post('/api/list')
+        .then(res => {
+          this.list = res.data
         })
         .catch(error => {
           this.errored = error
@@ -53,7 +53,12 @@ export default {
 </script>
 
 <style>
+:root {
+  --myColor: red;
+}
+
 .bg {
+  color: var(--myColor);
   background: url('~@/assets/icon.png') center;
 }
 </style>
