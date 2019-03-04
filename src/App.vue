@@ -7,22 +7,13 @@
       Real server cat: {{ cat }}
     </div>
     <div class="url">
-      Mock server url: {{ url }}
+      Mock server list: {{ list }}
     </div>
     <img
       style="width: 10rem; height: 10rem;"
       src="@/assets/icon.png"
       alt="icon"
     >
-    <div class="card">
-      &nbsp;
-    </div>
-    <div class="message">
-      &nbsp;
-    </div>
-    <div class="google">
-      &nbsp;
-    </div>
   </div>
 </template>
 
@@ -34,24 +25,24 @@ export default {
     return {
       say: 'Hello',
       cat: 'Loading',
-      url: 'Loading',
+      list: 'Loading',
       errored: 'error'
     }
   },
   mounted: function () {
     this.$nextTick(() => {
       axios
-        .get('/api/test-url')
-        .then(response => {
-          this.url = response.data.url
+        .get('/api/cat')
+        .then(res => {
+          this.cat = res.data.cat
         })
         .catch(error => {
           this.errored = error
         })
       axios
-        .post('/api/test-cat')
-        .then(response => {
-          this.cat = response.data.cat
+        .post('/api/list')
+        .then(res => {
+          this.list = res.data
         })
         .catch(error => {
           this.errored = error
@@ -62,40 +53,12 @@ export default {
 </script>
 
 <style>
-.bg {
+:root {
   --myColor: red;
+}
+
+.bg {
   color: var(--myColor);
   background: url('~@/assets/icon.png') center;
-}
-
-/* postcss-sprites 不能使用~@别名，因为会被url-loader优先处理 */
-.card {
-  display: block;
-  width: 200px;
-  height: 200px;
-  background: url('assets/sprite/card.jpg');
-}
-
-.message {
-  display: block;
-  width: 174px;
-  height: 174px;
-  background: url('assets/sprite/message.jpg');
-}
-</style>
-<style lang="scss">
- /* 引入node_modules时需要用到 ～ 符号 */
-@import '~retinajs/dist/_retina.scss';
-
-.google {
-  display: block;
-  width: 300px;
-  height: 99px;
-  @include retina(
-    '~@/assets/google-logo.png',
-    3,
-    cover,
-    center center no-repeat
-  );
 }
 </style>

@@ -1,13 +1,15 @@
 const path = require('path')
-const IPv4 = Object.values(require('os').networkInterfaces())[1][1].address
+const version = require('./package.json').version
+const mockTarget = require('./.mockrc.js')
+const openInEditor = require('launch-editor-middleware')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackShellPlugin = require('webpack-shell-plugin')
-const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
 
 // 判断开发模式或生产模式
 const prod = process.env.NODE_ENV === 'production'
@@ -28,64 +30,62 @@ module.exports = {
   // 生产模式时关闭source-map
   devtool: prod ? 'none' : 'eval-source-map',
   devServer: {
-    host: IPv4,
+    host: 'localhost',
     port: 3000,
     open: true,
     proxy: {
       '/api': {
         // Real api
-        target: 'http://result.eolinker.com/kK7FcbWe38892f0e72297734b96ad6e5c736a581f267992?uri=',
-        router: (req) => {
-          // Mock api
-          const overrideTarget = 'http://rap2api.taobao.org/app/mock/119655'
-          // 测试mock服务器
-          const xhr = new XMLHttpRequest()
-          // 同步请求地址
-          xhr.open(req.method, overrideTarget + req._parsedUrl.pathname, false)
-          xhr.send(null)
-          // 如果mock服务器返回4xx表示无api
-          if (xhr.status[0] !== 4) {
-            // 因为rap2api.taobao.org无论有无响应api始终返回200和含isOK的JSON数据，所以用isOK来判断api是否存在
-            if (JSON.parse(xhr.responseText).isOk === false) return
-            // 重写目标服务器至mock
-            return overrideTarget
-          }
-        },
+        target: 'http://localhost:3200',
+        // Mock api
+        router: (req) => mockTarget(req, 'http://localhost:3100'),
         // 把原始host的header切换至目标URL
         changeOrigin: true
       }
     },
     // 如果为 true ，在浏览器上全屏显示编译的errors或warnings
-    overlay: true
+    overlay: true,
+    // vue-devtools 里用 Open in editor，打开.vue文件
+    before (app) {
+      app.use('/__open-in-editor', openInEditor())
+    }
   },
   module: {
     rules: [
       {
-        // vue-loader必须和VueLoaderPlugin()一起使用
         test: /\.vue$/,
-        use: [
-          'vue-loader',
-          'eslint-loader'
-        ]
+        loader: 'vue-loader'
       },
+      // 它会应用到普通的 `.js` 文件
+      // 以及 `.vue` 文件中的 `<script>` 块
       {
         test: /\.(js)$/,
-        // 支持ES6或更新的JS语法，配置文件.babelrc
-        exclude: /node_modules/,
-        use: [
-          'babel-loader',
-          'eslint-loader'
-        ]
+        loader: 'babel-loader',
+        exclude: file => (
+          /node_modules/.test(file) &&
+          !/\.vue\.js/.test(file)
+        )
       },
+      // 编译时检测javascript
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
+      // 它会应用到普通的 `.css` 文件
+      // 以及 `.vue` 文件中的 `<style>` 块
       {
         test: /\.css$/,
         use: [
           // 类似vue-style-loader和style-loader，区别在于会生成单独的css文件，文件配置参考plugin配置
           prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           prod ? 'css-loader' : 'css-loader?sourceMap',
-          'postcss-loader'
+          prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
+      // 普通的 `.scss` 文件和 `*.vue` 文件中的
+      // `<style lang="scss">` 块都应用它
       {
         test: /\.scss$/,
         use: [
@@ -115,7 +115,12 @@ module.exports = {
     ]
   },
   plugins: [
+    // 必须和vue-loader一起使用
     new VueLoaderPlugin(),
+    // 检查style
+    new StyleLintPlugin({
+      files: ['**/*.{vue,htm,html,css,sss,less,scss,sass}']
+    }),
     // 创建css独立文件
     new MiniCssExtractPlugin({
       filename: prod ? 'styles/[hash].css' : '[name].css?[hash:8]'
@@ -124,7 +129,8 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     // 生成的js和css文件时自动加入并生成index.html文件
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: 'public/index.html',
+      meta: { version: version }
     }),
     new CopyWebpackPlugin([{
       from: 'public',
