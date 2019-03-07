@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <!-- svg class="svg-<image name>" -->
+    <i class="svg-xiaren" />
+    <i class="svg-ningmenggan" />
+    <!-- font class="icon icon-<image name>"-->
+    <i class="icon icon-ios-add-circle" />
+    <i class="icon icon-ios-alarm red" />
     <div class="bg">
       {{ say }} 世界
     </div>
@@ -11,7 +17,7 @@
     </div>
     <img
       style="width: 10rem; height: 10rem;"
-      src="@/assets/icon.png"
+      src="@/assets/images/icon.png"
       alt="icon"
     >
   </div>
@@ -59,6 +65,11 @@ export default {
 
 .bg {
   color: var(--myColor);
-  background: url('~@/assets/icon.png') center;
+  background: url('~@/assets/images/icon.png') center;
+}
+
+.red {
+  color: red;
+  font-size: 5rem;
 }
 </style>

@@ -1,0 +1,20 @@
+{
+  "dest": "src/assets",
+  "mode": {
+    "css": {
+      "dest": "",
+      "bust": false,
+      "dimensions": "",
+      "sprite": "images/svgsprite.svg",
+      "render": {
+        "css": {
+          "dest": "styles/svgsprite.css",
+          "template": "src/assets/styles/svgsprite.hbs"
+        }
+      }
+    }
+  },
+  "shape": {
+    "transform": ["svgo"]
+  }
+}

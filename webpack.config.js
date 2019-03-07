@@ -96,17 +96,16 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|svg)$/,
         loader: 'url-loader',
         options: {
-          // limit 8Kb 会用base64图片减少http请求数量，所以要求UI设计师提供的多彩icon大小要小于8Kb
-          // 雪碧图只有在icon量巨大的项目使用，单彩icon用webfonts-generator方案
+          // limit 8Kb base64
           limit: '8192',
           name: prod ? 'images/[hash].[ext]' : '[name].[ext]?[hash:8]'
         }
       },
       {
-        test: /\.(ttf|otf|woff|woff2|eot|svg)$/,
+        test: /\.(ttf|otf|woff|woff2|eot)$/,
         loader: 'file-loader',
         options: {
           name: prod ? 'fonts/[hash].[ext]' : '[name].[ext]?[hash:8]'
