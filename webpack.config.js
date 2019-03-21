@@ -1,6 +1,6 @@
 const path = require('path')
 const version = process.env.npm_package_version
-const mockTarget = require('./.mockrc.js')
+const mockTarget = require('./mock.config.js')
 const openInEditor = require('launch-editor-middleware')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -22,7 +22,7 @@ module.exports = {
     // Server access address
     publicPath: '/',
     // Scripts file name
-    filename: prod ? 'scripts/[hash].js' : '[name].js?[hash:8]'
+    filename: prod ? 'scripts/[chunkhash].js' : '[name].js?[hash:8]'
   },
   // Setting mode
   mode: prod ? 'production' : 'development',
@@ -102,14 +102,14 @@ module.exports = {
         options: {
           // limit 8Kb base64
           limit: '8192',
-          name: prod ? 'images/[hash].[ext]' : '[name].[ext]?[hash:8]'
+          name: prod ? 'images/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
         }
       },
       {
         test: /\.(ttf|otf|woff|woff2|eot)$/,
         loader: 'file-loader',
         options: {
-          name: prod ? 'fonts/[hash].[ext]' : '[name].[ext]?[hash:8]'
+          name: prod ? 'fonts/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
         }
       }
     ]
@@ -117,7 +117,7 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: prod ? 'styles/[hash].css' : '[name].css?[hash:8]'
+      filename: prod ? 'styles/[contenthash].css' : '[name].css?[hash:8]'
     }),
     // clean dist
     new CleanWebpackPlugin(),

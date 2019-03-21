@@ -10,10 +10,11 @@
   },
   "main": "index.js",
   "scripts": {
+    "release": "standard-version",
     "serve": "cross-env NODE_ENV=development webpack-dev-server --progress",
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "release": "standard-version",
-    "mock": "pm2 start server/mock.js && pm2 start server/data.js && pm2 start server/app.js",
+    "mock:start": "pm2 start server/{mock,data,app}.js",
+    "mock:stop": "pm2 stop {0,1,2}",
     "unit": "jest",
     "e2e": "nightwatch",
     "test": "npm run unit && npm run e2e"
@@ -21,7 +22,10 @@
   "homepage": "https://github.com/kimseongrim/hivue#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kimseongrim/hivue.git"
+    "url": "https://github.com/kimseongrim/hivue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kimseongrim/hivue/issues"
   },
   "keywords": [
     "vuejs",
@@ -29,9 +33,6 @@
     "webpack",
     "demo"
   ],
-  "bugs": {
-    "url": "https://github.com/kimseongrim/hivue/issues"
-  },
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.13",
     "gsap": "^2.1.1",

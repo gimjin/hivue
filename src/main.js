@@ -8,8 +8,6 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@/assets/styles/style.css'
-import '@/assets/styles/svgsprite.css'
-import '@/assets/styles/iconfont.css'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
@@ -24,4 +22,3 @@ const vm = new Vue({
   i18n: i18n
 })
 vm.$mount('#app')
-window.vm = vm
