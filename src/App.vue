@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <!-- svg class="svg-<image name>" -->
-    <i class="svg-xiaren" />
-    <i class="svg-ningmenggan" />
-    <!-- font class="icon icon-<image name>"-->
-    <i class="icon icon-ios-add-circle" />
-    <i class="icon icon-ios-alarm red" />
     <div class="bg">
       {{ say }} 世界
     </div>
