@@ -1,53 +1,32 @@
 <template>
   <div id="app">
-    <div class="bg">
-      {{ say }} 世界
-    </div>
     <div class="cat">
-      Real server cat: {{ cat }}
-    </div>
-    <div class="url">
-      Mock server list: {{ list }}
+      {{ cat }}
     </div>
     <img
       style="width: 10rem; height: 10rem;"
-      src="@/assets/images/icon.png"
+      src="@/assets/icon.png"
       alt="icon"
     >
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/axios/api'
 
 export default {
+  name: 'App',
   data: function () {
     return {
-      say: 'Hello',
-      cat: 'Loading',
-      list: 'Loading',
-      errored: 'error'
+      cat: '$ npm run mock'
     }
   },
-  mounted: function () {
-    this.$nextTick(() => {
-      axios
-        .get('/api/cat')
-        .then(res => {
-          this.cat = res.data.cat
-        })
-        .catch(error => {
-          this.errored = error
-        })
-      axios
-        .post('/api/list')
-        .then(res => {
-          this.list = res.data
-        })
-        .catch(error => {
-          this.errored = error
-        })
-    })
+  mounted () {
+    this.$axios
+      .get(api.cat)
+      .then(res => {
+        this.cat = res.data.list
+      })
   }
 }
 </script>
@@ -57,13 +36,9 @@ export default {
   --myColor: red;
 }
 
-.bg {
+.cat {
   color: var(--myColor);
-  background: url('~@/assets/images/icon.png') center;
-}
-
-.red {
-  color: red;
-  font-size: 5rem;
+  user-select: none;
+  background: url("~@/assets/icon.png") center;
 }
 </style>
