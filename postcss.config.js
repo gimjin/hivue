@@ -1,7 +1,7 @@
 module.exports = {
-  plugins: [
-    require('stylelint'),
-    require('postcss-preset-env'),
-    require('autoprefixer')
-  ]
+  plugins: {
+    'stylelint': {},
+    'postcss-preset-env': {},
+    'autoprefixer': {}
+  }
 }

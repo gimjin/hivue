@@ -1,6 +1,6 @@
 const path = require('path')
 const version = process.env.npm_package_version
-const mockTarget = require('./mock.config.js')
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
 const openInEditor = require('launch-editor-middleware')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -8,7 +8,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const WebpackShellPlugin = require('webpack-shell-plugin')
 
 // Production
 const prod = process.env.NODE_ENV === 'production'
@@ -35,9 +34,17 @@ module.exports = {
     proxy: {
       '/api': {
         // Real api
-        target: 'http://localhost:3200',
-        // Mock api
-        router: (req) => mockTarget(req, 'http://localhost:3100'),
+        target: 'http://localhost:8080',
+        router: (req) => {
+          // Mock api
+          const target = 'http://localhost:7070'
+          const xhr = new XMLHttpRequest()
+          // request mock url
+          xhr.open(req.method, target + req._parsedUrl.pathname, false)
+          xhr.send(null)
+          // check mock api
+          if (xhr.status !== 404) return target
+        },
         // Needed for virtual hosted sites
         changeOrigin: true
       }
@@ -74,11 +81,7 @@ module.exports = {
           // This plugin extracts CSS into separate files
           prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           prod ? 'css-loader' : 'css-loader?sourceMap',
-          {
-            // https://stylelint.io/user-guide/configuration/#ignorefiles
-            loader: prod ? 'postcss-loader' : 'postcss-loader?sourceMap',
-            options: { quiet: true }
-          }
+          prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
       // this will apply to both plain `.scss` files
@@ -89,11 +92,7 @@ module.exports = {
           prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           prod ? 'css-loader' : 'css-loader?sourceMap',
           prod ? 'sass-loader' : 'sass-loader?sourceMap',
-          {
-            // https://stylelint.io/user-guide/configuration/#ignorefiles
-            loader: prod ? 'postcss-loader' : 'postcss-loader?sourceMap',
-            options: { quiet: true }
-          }
+          prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
       {
@@ -129,11 +128,7 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: 'public',
       toType: 'dir'
-    }]),
-    new WebpackShellPlugin({
-      onBuildStart: ['echo "Start"'],
-      onBuildEnd: ['echo "End"']
-    })
+    }])
   ],
   optimization: {
     // split chunks
