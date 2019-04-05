@@ -2,15 +2,13 @@
 
 ## Usage
 ```bash
-# nodejs version manager(Option)
-$ npm install nvm -g
-$ nvm install 10.15.0
-$ nvm use 10.15.0
-# npm resource manager(Option)
-$ npm install nrm -g
+# install resource manager(Option)
+$ npm i -g nrm
 $ nrm use taobao
-# install, serve, build
-$ npm install
+
+# install and run
+$ npm i
+$ npm run mock
 $ npm run serve
 $ npm run build
 ```
