@@ -11,7 +11,7 @@
     </div>
     <img
       style="width: 10rem; height: 10rem;"
-      src="@/assets/icon.png"
+      src="@/assets/images/icon.png"
       alt="icon"
     >
   </div>
@@ -59,6 +59,11 @@ export default {
 
 .bg {
   color: var(--myColor);
-  background: url('~@/assets/icon.png') center;
+  background: url('~@/assets/images/icon.png') center;
+}
+
+.red {
+  color: red;
+  font-size: 5rem;
 }
 </style>
