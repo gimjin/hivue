@@ -8,7 +8,6 @@ $ nrm use taobao
 
 # install and run
 $ npm i
-$ npm run mock
 $ npm run serve
 $ npm run build
 ```

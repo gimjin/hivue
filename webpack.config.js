@@ -1,6 +1,5 @@
 const path = require('path')
 const version = process.env.npm_package_version
-const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
 const openInEditor = require('launch-editor-middleware')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -13,8 +12,21 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const prod = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  // Entry package
-  entry: ['@babel/polyfill', './src/main.js'],
+  // Setting mode
+  mode: prod ? 'production' : 'development',
+  // source-map
+  devtool: prod ? 'none' : 'eval-source-map',
+  entry: () => {
+    // Entry
+    let entry = {
+      main: ['@babel/polyfill', './src/main.js']
+    }
+    // Mock ajax interceptor
+    if (!prod) {
+      entry.main.push('./mock.config.js')
+    }
+    return entry
+  },
   output: {
     // Package path
     path: path.resolve(__dirname, 'dist'),
@@ -23,28 +35,14 @@ module.exports = {
     // Scripts file name
     filename: prod ? 'scripts/[chunkhash].js' : '[name].js?[hash:8]'
   },
-  // Setting mode
-  mode: prod ? 'production' : 'development',
-  // source-map
-  devtool: prod ? 'none' : 'eval-source-map',
   devServer: {
     host: 'localhost',
     port: 3000,
     open: true,
     proxy: {
       '/api': {
-        // Real api
+        // Proxy target
         target: 'http://localhost:8080',
-        router: (req) => {
-          // Mock api
-          const target = 'http://localhost:7070'
-          const xhr = new XMLHttpRequest()
-          // request mock url
-          xhr.open(req.method, target + req._parsedUrl.pathname, false)
-          xhr.send(null)
-          // check mock api
-          if (xhr.status !== 404) return target
-        },
         // Needed for virtual hosted sites
         changeOrigin: true
       }

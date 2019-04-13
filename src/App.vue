@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div class="cat">
-      {{ cat }}
+      {{ cat }} <br>
+      {{ list }}
     </div>
     <img
       style="width: 10rem; height: 10rem;"
@@ -18,14 +19,21 @@ export default {
   name: 'App',
   data: function () {
     return {
-      cat: '$ npm run mock'
+      cat: 'British shorthair',
+      list: 'Cats list'
     }
   },
   mounted () {
     this.$axios
-      .get(api.cat)
+      .post(api.cat)
       .then(res => {
-        this.cat = res.data.list
+        this.cat = res.data.cat
+      })
+
+    this.$axios
+      .get(api.list)
+      .then(res => {
+        this.list = res.data.list
       })
   }
 }

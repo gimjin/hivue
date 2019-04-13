@@ -1,3 +1,4 @@
 export default {
-  cat: '/api/cat'
+  cat: '/api/cat',
+  list: '/api/list'
 }

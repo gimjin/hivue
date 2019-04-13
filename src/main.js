@@ -6,5 +6,7 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 new Vue({
-  render: function (h) { return h(App) }
+  render: function (h) {
+    return h(App)
+  }
 }).$mount('#app')
