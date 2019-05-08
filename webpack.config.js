@@ -77,7 +77,10 @@ module.exports = {
         test: /\.css$/,
         use: [
           // This plugin extracts CSS into separate files
-          prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          {
+            loader: prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            options: { publicPath: '../' }
+          },
           prod ? 'css-loader' : 'css-loader?sourceMap',
           prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
@@ -87,7 +90,10 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          {
+            loader: prod ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            options: { publicPath: '../' }
+          },
           prod ? 'css-loader' : 'css-loader?sourceMap',
           prod ? 'sass-loader' : 'sass-loader?sourceMap',
           prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
