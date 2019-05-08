@@ -14,8 +14,6 @@ const prod = process.env.NODE_ENV === 'production'
 module.exports = {
   // Setting mode
   mode: prod ? 'production' : 'development',
-  // source-map
-  devtool: prod ? 'none' : 'eval-source-map',
   entry: () => {
     // Entry
     let entry = {
