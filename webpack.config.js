@@ -59,7 +59,7 @@ module.exports = {
       // this will apply to both plain `.js` files
       // AND `<script>` blocks in `.vue` files
       {
-        test: /\.(js)$/,
+        test: /\.js$/,
         loader: 'babel-loader'
       },
       {
