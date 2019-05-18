@@ -1,7 +1,6 @@
 module.exports = {
   plugins: {
     'stylelint': {},
-    'postcss-preset-env': {},
     'autoprefixer': {},
     'postcss-reporter': {
       formatter: function (input) {

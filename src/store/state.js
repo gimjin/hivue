@@ -1,3 +1,3 @@
 export default {
-  cat: '/api/cat'
+  count: 1
 }

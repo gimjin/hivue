@@ -1,6 +1,7 @@
 const path = require('path')
 const version = process.env.npm_package_version
 const openInEditor = require('launch-editor-middleware')
+const history = require('connect-history-api-fallback')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -14,16 +15,8 @@ const prod = process.env.NODE_ENV === 'production'
 module.exports = {
   // Setting mode
   mode: prod ? 'production' : 'development',
-  entry: () => {
-    // Entry
-    let entry = {
-      main: ['@babel/polyfill', './src/main.js']
-    }
-    // Mock ajax interceptor
-    if (!prod) {
-      entry.main.push('./mock.config.js')
-    }
-    return entry
+  entry: {
+    main: ['@babel/polyfill', './src/main.js']
   },
   output: {
     // Package path
@@ -48,6 +41,7 @@ module.exports = {
     // vue-devtools open .vue file
     before (app) {
       app.use('/__open-in-editor', openInEditor())
+      app.use(history())
     }
   },
   module: {
