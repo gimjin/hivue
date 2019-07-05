@@ -1,5 +1,4 @@
 const path = require('path')
-const version = process.env.npm_package_version
 const openInEditor = require('launch-editor-middleware')
 const history = require('connect-history-api-fallback')
 
@@ -8,9 +7,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
 // Production
 const prod = process.env.NODE_ENV === 'production'
+// Version
+const version = process.env.npm_package_version
+// Base routere recommended use '/'
+const baseRouter = `/${process.env.npm_package_name}/`
 
 module.exports = {
   // Setting mode
@@ -22,7 +26,7 @@ module.exports = {
     // Package path
     path: path.resolve(__dirname, 'dist'),
     // Server access address
-    publicPath: '/',
+    publicPath: baseRouter,
     // Scripts file name
     filename: prod ? 'scripts/[chunkhash].js' : '[name].js?[hash:8]'
   },
@@ -30,6 +34,7 @@ module.exports = {
     host: 'localhost',
     port: 3000,
     open: true,
+    publicPath: baseRouter,
     proxy: {
       '/api': {
         // Proxy target
@@ -38,10 +43,13 @@ module.exports = {
         changeOrigin: true
       }
     },
-    // vue-devtools open .vue file
     before (app) {
+      // vue-devtools open .vue file
       app.use('/__open-in-editor', openInEditor())
-      app.use(history())
+      // Only vue-router history mode setting
+      app.use(history({
+        index: baseRouter + 'index.html'
+      }))
     }
   },
   module: {
@@ -87,7 +95,10 @@ module.exports = {
             options: { publicPath: '../' }
           },
           prod ? 'css-loader' : 'css-loader?sourceMap',
-          prod ? 'sass-loader' : 'sass-loader?sourceMap',
+          {
+            loader: prod ? 'sass-loader' : 'sass-loader?sourceMap',
+            options: { implementation: require('sass') }
+          },
           prod ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
@@ -111,6 +122,9 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      BASE_ROUTER: JSON.stringify(baseRouter)
+    }),
     new MiniCssExtractPlugin({
       filename: prod ? 'styles/[contenthash].css' : '[name].css?[hash:8]'
     }),

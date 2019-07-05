@@ -1,5 +1,9 @@
 <template lang="html">
   <div>
+    <router-link to="child">
+      Go to child.
+    </router-link>
+    <router-view />
     <!-- 定义 -->
     <portal
       v-for="(cat, index) in ['shorthair', 'siamese']"
@@ -32,7 +36,7 @@
   </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .cat {
   color: red;
   user-select: none;
