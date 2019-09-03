@@ -4,7 +4,7 @@ const history = require('connect-history-api-fallback')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
@@ -20,7 +20,7 @@ module.exports = {
   // Setting mode
   mode: prod ? 'production' : 'development',
   entry: {
-    main: ['@babel/polyfill', './src/main.js']
+    main: ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js']
   },
   output: {
     // Package path
@@ -155,7 +155,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       // https://vuejs.org/v2/guide/installation.html#Explanation-of-Different-Builds
-      'vue$': 'vue/dist/vue.esm.js',
+      vue$: 'vue/dist/vue.esm.js',
       // e.g. css ~@/assets/images, js @/components
       '@': path.resolve('src')
     }

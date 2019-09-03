@@ -4,11 +4,16 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-    'standard',
-    'canonical-jsdoc'
+    'standard'
+  ],
+  plugins: [
+    'jsdoc'
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': [
+      process.env.NODE_ENV === 'production' ? 'error' : 'off', 
+      { allow: ['info', 'warn'] }
+    ],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/max-attributes-per-line': ['error', {
       'singleline': 3,
@@ -16,7 +21,8 @@ module.exports = {
         'max': 1,
         'allowFirstLine': false
       }
-    }]
+    }],
+    "no-control-regex": 0
   },
   env: {
     browser: true,
