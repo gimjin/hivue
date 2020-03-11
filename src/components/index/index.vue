@@ -1,38 +1,30 @@
 <template lang="html">
   <div>
-    <router-link to="child">
-      Go to child.
-    </router-link>
+    <el-link @click="$router.push('child')">
+      Go to child
+    </el-link>
     <router-view />
-    <!-- 定义 -->
+    <!-- template -->
     <portal
       v-for="(cat, index) in ['shorthair', 'siamese']"
       :key="index"
       :to="cat"
     >
-      <img
-        v-if="index === 0"
-        style="width: 10rem; height: 10rem;"
-        src="@/assets/icon.png"
-        alt="icon"
-      >
-      <p>猫咪是人类很好的朋友。</p>
-      <p class="cat">
-        {{ cat }}
-      </p>
       <p v-if="cat === 'shorthair'">
-        英国短毛猫非常漂亮。
+        <span class="cat">{{ name }}</span> is very beautiful.
       </p>
       <p v-if="cat === 'siamese'">
-        暹罗猫是泰国的皇室猫。
+        <span class="cat">{{ name }}</span> is Thai royal cat.
       </p>
     </portal>
-    <!-- 引用 -->
+    <!-- use template -->
     <portal-target name="shorthair" />
     <portal-target name="siamese" />
-    <el-button type="primary">
-      主要按钮
-    </el-button>
+    <img
+      style="width: 2rem; height: 2rem;"
+      src="@/assets/icon.png"
+      alt="icon"
+    >
   </div>
 </template>
 

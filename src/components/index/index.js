@@ -4,10 +4,11 @@ export default {
   name: 'App',
   data: function () {
     return {
-      name: 'British shorthair'
+      name: ''
     }
   },
   mounted () {
+    console.log('Only NODE_ENV=development show log.')
     this.$axios
       .post(api.cat)
       .then(res => {

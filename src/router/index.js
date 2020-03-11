@@ -4,8 +4,8 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  mode: 'history',
   /* eslint-disable */
+  mode: ROUTER_MODE,
   base: BASE_ROUTER,
   /* eslint-enable */
   routes: [{
