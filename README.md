@@ -3,11 +3,12 @@
 ## Usage
 ```bash
 # install resource manager(Option)
-$ npm i -g nrm
+$ npm install -g nrm
 $ nrm use taobao
 
 # install and run
-$ npm i
+$ npm install
 $ npm run serve
 $ npm run build
+$ npm run check
 ```
