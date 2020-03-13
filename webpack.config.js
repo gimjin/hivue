@@ -31,7 +31,7 @@ module.exports = {
     // Package path
     path: path.resolve(__dirname, 'dist'),
     // Server access address
-    publicPath: BASE_ROUTER,
+    publicPath: '.' + BASE_ROUTER,
     // Scripts file name
     filename: 'scripts/[contenthash].js'
   },
