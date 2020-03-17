@@ -59,7 +59,6 @@
     "lint-staged": "^9.2.5",
     "mini-css-extract-plugin": "^0.8.0",
     "mockjs": "^1.1.0",
-    "node-sass": "^4.13.1",
     "portal-vue": "^2.1.6",
     "postcss-loader": "^3.0.0",
     "postcss-reporter": "^6.0.1",
