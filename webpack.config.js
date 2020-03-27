@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const history = require('connect-history-api-fallback')
 const openInEditor = require('launch-editor-middleware')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -51,10 +50,6 @@ module.exports = {
     before (app) {
       // vue-devtools open .vue file
       app.use('/__open-in-editor', openInEditor())
-      // Only vue-router history mode setting
-      app.use(history({
-        index: BASE_ROUTER + 'index.html'
-      }))
       // Only vue-router history mode setting
       if (ROUTER_MODE === 'history') {
         const history = require('connect-history-api-fallback')
