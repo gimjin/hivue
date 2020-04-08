@@ -1,3 +1,5 @@
+const CONTEXT = '/api'
+
 export default {
-  cat: '/api/cat'
+  cat: CONTEXT + '/cat'
 }

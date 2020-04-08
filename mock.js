@@ -1,6 +1,6 @@
 import Mock from 'mockjs'
 
-Mock.mock('/api/cat', 'post', function (option) {
+Mock.mock('/api/cat', function (option) {
   return {
     cat: 'Bella'
   }
