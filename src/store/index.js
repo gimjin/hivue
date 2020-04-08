@@ -9,7 +9,7 @@ import actions from './actions.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
+  strict: !PROD_MODE, // eslint-disable-line
   state,
   getters,
   mutations,

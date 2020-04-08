@@ -5,9 +5,9 @@
   "author": "Kim",
   "license": "MIT",
   "scripts": {
-    "serve": "cross-env NODE_ENV=development ROUTER_MODE=hash webpack-dev-server --progress",
-    "build": "cross-env NODE_ENV=production ROUTER_MODE=hash webpack --progress",
-    "check": "http-server ./dist --cors -g -o",
+    "serve": "cross-env NODE_ENV=development webpack-dev-server --progress",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "check": "http-server ./dist -g -o --cors --proxy http://localhost:8080",
     "release": "standard-version"
   },
   "homepage": "https://github.com/kimseongrim/hivue#readme",

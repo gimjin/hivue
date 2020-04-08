@@ -10,7 +10,7 @@ import App from '@/App'
 Vue.use(ElementUI)
 Vue.use(PortalVue)
 Vue.prototype.$axios = axios
-Vue.config.productionTip = process.env.NODE_ENV !== 'production'
+Vue.config.productionTip = !PROD_MODE // eslint-disable-line
 
 new Vue({
   render: function (h) {

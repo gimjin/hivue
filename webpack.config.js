@@ -9,20 +9,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 // Global setting
-const BASE_ROUTER = process.env.BASE_ROUTER || '/'
-const ROUTER_MODE = process.env.ROUTER_MODE || 'history'
-
-// Production
-const PROD_ENV = process.env.NODE_ENV === 'production'
-
-// Version
-const APP_VERSION = process.env.npm_package_version
+const PROD_MODE = process.env.NODE_ENV === 'production'
+const ROUTER_BASE = process.env.CONTEXT_MODE ? `/${process.env.npm_package_name}/` : '/'
+const ROUTER_MODE = process.env.HISTORY_MODE ? 'history' : 'hash'
 
 module.exports = {
   // Setting mode
-  mode: PROD_ENV ? 'production' : 'development',
+  mode: PROD_MODE ? 'production' : 'development',
   entry: {
-    main: PROD_ENV
+    main: PROD_MODE
       ? ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js']
       : ['core-js/stable', 'regenerator-runtime/runtime', './src/main.js', './mock.js']
   },
@@ -30,7 +25,7 @@ module.exports = {
     // Package path
     path: path.resolve(__dirname, 'dist'),
     // Server access address
-    publicPath: '.' + BASE_ROUTER,
+    publicPath: ROUTER_BASE,
     // Scripts file name
     filename: 'scripts/[contenthash].js'
   },
@@ -38,7 +33,7 @@ module.exports = {
     host: 'localhost',
     port: 3000,
     open: true,
-    publicPath: BASE_ROUTER,
+    publicPath: ROUTER_BASE,
     proxy: {
       '/api': {
         // Proxy target
@@ -54,7 +49,7 @@ module.exports = {
       if (ROUTER_MODE === 'history') {
         const history = require('connect-history-api-fallback')
         app.use(history({
-          index: BASE_ROUTER + 'index.html'
+          index: ROUTER_BASE + 'index.html'
         }))
       }
     }
@@ -85,11 +80,11 @@ module.exports = {
         use: [
           // This plugin extracts CSS into separate files
           {
-            loader: PROD_ENV ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            loader: PROD_MODE ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             options: { publicPath: '../' }
           },
-          PROD_ENV ? 'css-loader' : 'css-loader?sourceMap',
-          PROD_ENV ? 'postcss-loader' : 'postcss-loader?sourceMap'
+          PROD_MODE ? 'css-loader' : 'css-loader?sourceMap',
+          PROD_MODE ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
       // this will apply to both plain `.scss` files
@@ -98,15 +93,15 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: PROD_ENV ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            loader: PROD_MODE ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             options: { publicPath: '../' }
           },
-          PROD_ENV ? 'css-loader' : 'css-loader?sourceMap',
+          PROD_MODE ? 'css-loader' : 'css-loader?sourceMap',
           {
-            loader: PROD_ENV ? 'sass-loader' : 'sass-loader?sourceMap',
+            loader: PROD_MODE ? 'sass-loader' : 'sass-loader?sourceMap',
             options: { implementation: require('sass') }
           },
-          PROD_ENV ? 'postcss-loader' : 'postcss-loader?sourceMap'
+          PROD_MODE ? 'postcss-loader' : 'postcss-loader?sourceMap'
         ]
       },
       {
@@ -115,14 +110,14 @@ module.exports = {
         options: {
           // limit 8Kb base64
           limit: '8192',
-          name: PROD_ENV ? 'images/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
+          name: PROD_MODE ? 'images/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
         }
       },
       {
         test: /\.(ttf|otf|woff|woff2|eot)$/,
         loader: 'file-loader',
         options: {
-          name: PROD_ENV ? 'fonts/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
+          name: PROD_MODE ? 'fonts/[contenthash].[ext]' : '[name].[ext]?[hash:8]'
         }
       }
     ]
@@ -130,8 +125,9 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
-      BASE_ROUTER: JSON.stringify(BASE_ROUTER),
-      ROUTER_MODE: JSON.stringify(ROUTER_MODE)
+      PROD_MODE: PROD_MODE,
+      ROUTER_MODE: JSON.stringify(ROUTER_MODE),
+      ROUTER_BASE: JSON.stringify(ROUTER_BASE)
     }),
     new MiniCssExtractPlugin({
       filename: 'styles/[contenthash].css'
@@ -141,7 +137,9 @@ module.exports = {
     // Plugin that simplifies creation of HTML files to serve your bundles
     new HtmlWebpackPlugin({
       template: 'public/index.html',
-      meta: { version: APP_VERSION }
+      title: process.env.npm_package_name,
+      favicon: 'public/favicon.ico',
+      meta: { version: process.env.npm_package_version }
     }),
     new CopyWebpackPlugin([{
       from: 'public',

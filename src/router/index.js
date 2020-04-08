@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
   /* eslint-disable */
   mode: ROUTER_MODE,
-  base: BASE_ROUTER,
+  base: ROUTER_BASE,
   /* eslint-enable */
   routes: [{
     path: '/',
