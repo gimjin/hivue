@@ -30,14 +30,15 @@ module.exports = {
     filename: 'scripts/[contenthash].js'
   },
   devServer: {
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 3000,
     open: true,
+    openPage: ROUTER_BASE.substr(1),
     publicPath: ROUTER_BASE,
     proxy: {
       '/api': {
         // Proxy target
-        target: 'http://localhost:8080',
+        target: 'http://0.0.0.0:8080',
         // Needed for virtual hosted sites
         changeOrigin: true
       }

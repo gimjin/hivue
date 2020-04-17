@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "cross-env NODE_ENV=development webpack-dev-server --progress",
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "check": "http-server ./dist -g -o --cors --proxy http://localhost:8080",
+    "check": "http-server ./dist -g -o --cors --proxy http://0.0.0.0:8080",
     "release": "standard-version"
   },
   "homepage": "https://github.com/kimseongrim/hivue#readme",
@@ -59,7 +59,6 @@
     "lint-staged": "^9.2.5",
     "mini-css-extract-plugin": "^0.8.0",
     "mockjs": "^1.1.0",
-    "portal-vue": "^2.1.6",
     "postcss-loader": "^3.0.0",
     "postcss-reporter": "^6.0.1",
     "sass": "^1.22.10",
