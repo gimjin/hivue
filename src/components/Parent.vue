@@ -5,22 +5,20 @@
       src="@/assets/icon.png"
       alt="icon"
     >
-    <el-link @click="$router.push('child')">
+    <el-link class="btn" @click="$router.push('child')">
       Go to child
     </el-link>
     <router-view />
-    <p>
-      <span class="cat">{{ name }}</span> is Thai royal cat.
-    </p>
+    <p>{{ getCatDetail }}</p>
   </div>
 </template>
 
+<!-- Webapp NOT recommend write css in component -->
 <style lang="scss" scoped>
-.cat {
+.btn:hover {
   color: red;
-  user-select: none;
   background: url("~@/assets/icon.png") center;
 }
 </style>
 
-<script src="./index.js"></script>
+<script src="./Parent.js"></script>
