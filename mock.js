@@ -1,7 +1,6 @@
 import Mock from 'mockjs'
 
-Mock.mock('/api/cat', function (option) {
-  return {
-    cat: 'Bella'
-  }
+// https://github.com/nuysoft/Mock/wiki
+Mock.mock('/api/cat', {
+  cat: 'Bella'
 })
