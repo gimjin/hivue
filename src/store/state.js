@@ -1,3 +1,5 @@
 export default {
-  count: 1
+  cat: {
+    name: 'Jone'
+  }
 }

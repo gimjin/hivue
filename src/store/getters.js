@@ -1,5 +1,5 @@
 export default {
-  countString: (state) => {
-    return `Count: ${state.count}`
+  getCatDetail: (state) => {
+    return `${state.cat.name} is Thai royal cat.`
   }
 }
