@@ -70,7 +70,7 @@ module.exports = {
       {
         enforce: 'pre',
         test: /\.(js|vue)$/,
-        // https://eslint.org/docs/user-guide/configuring#eslintignore
+        exclude: /node_modules/,
         loader: 'eslint-loader',
         options: { quiet: true }
       },
