@@ -5,7 +5,10 @@
       src="@/assets/icon.png"
       alt="icon"
     >
-    <el-link class="btn" @click="$router.push('child')">
+    <el-link
+      class="btn"
+      @click="$router.push('child')"
+    >
       Go to child
     </el-link>
     <router-view />
