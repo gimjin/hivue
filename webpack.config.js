@@ -11,7 +11,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 // Global setting
 const PROD_MODE = process.env.NODE_ENV === 'production'
 const ROUTER_BASE = process.env.CONTEXT_MODE ? `/${process.env.npm_package_name}/` : '/'
-const ROUTER_MODE = process.env.HISTORY_MODE ? 'history' : 'hash'
+const ROUTER_MODE = process.env.HASH_MODE ? 'hash' : 'history'
 
 module.exports = {
   // Setting mode
@@ -70,9 +70,7 @@ module.exports = {
       {
         enforce: 'pre',
         test: /\.(js|vue)$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: { quiet: true }
+        loader: 'eslint-loader'
       },
       // this will apply to both plain `.css` files
       // AND `<style>` blocks in `.vue` files

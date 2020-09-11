@@ -1,3 +1,4 @@
 # not support *.* or *
-dist/**/*.css
-public/**/*.css
+/dist/**/*.css
+/public/**/*.css
+/node_modules/**/*.css

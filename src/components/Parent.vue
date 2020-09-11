@@ -22,6 +22,9 @@
   color: red;
   background: url("~@/assets/icon.png") center;
 }
+p {
+  box-shadow: 10px 5px 5px teal;
+}
 </style>
 
 <script src="./Parent.js"></script>
