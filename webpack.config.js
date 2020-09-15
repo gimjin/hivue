@@ -10,8 +10,8 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 // Global setting
 const PROD_MODE = process.env.NODE_ENV === 'production'
-const ROUTER_BASE = process.env.CONTEXT_MODE ? `/${process.env.npm_package_name}/` : '/'
-const ROUTER_MODE = process.env.HASH_MODE ? 'hash' : 'history'
+const ROUTER_BASE = process.env.ROUTER_BASE || '/' // e.g. '/hivue/' Don't forget the right /
+const ROUTER_MODE = process.env.ROUTER_MODE || 'hash'
 
 module.exports = {
   // Setting mode
@@ -77,13 +77,39 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          // This plugin extracts CSS into separate files
           {
             loader: PROD_MODE ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-            options: { publicPath: '../' }
+            options: {
+              publicPath: '../'
+            }
           },
-          PROD_MODE ? 'css-loader' : 'css-loader?sourceMap',
-          PROD_MODE ? 'postcss-loader' : 'postcss-loader?sourceMap'
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: !PROD_MODE
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: !PROD_MODE,
+              postcssOptions: {
+                plugins: [
+                  require('autoprefixer')
+                ]
+              }
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('stylelint')
+                ]
+              }
+            }
+          }
         ]
       },
       // this will apply to both plain `.scss` files
@@ -93,14 +119,44 @@ module.exports = {
         use: [
           {
             loader: PROD_MODE ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-            options: { publicPath: '../' }
+            options: {
+              publicPath: '../'
+            }
           },
-          PROD_MODE ? 'css-loader' : 'css-loader?sourceMap',
           {
-            loader: PROD_MODE ? 'sass-loader' : 'sass-loader?sourceMap',
-            options: { implementation: require('sass') }
+            loader: 'css-loader',
+            options: {
+              sourceMap: !PROD_MODE
+            }
           },
-          PROD_MODE ? 'postcss-loader' : 'postcss-loader?sourceMap'
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: !PROD_MODE,
+              postcssOptions: {
+                plugins: [
+                  require('autoprefixer')
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: !PROD_MODE,
+              implementation: require('sass')
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('stylelint')
+                ]
+              }
+            }
+          }
         ]
       },
       {
@@ -146,15 +202,6 @@ module.exports = {
     }])
   ],
   optimization: {
-    // split chunks
-    splitChunks: {
-      chunks: 'all'
-    },
-    // split runtime
-    runtimeChunk: {
-      name: entrypoint => `runtime~${entrypoint.name}`
-    },
-    // javascript compressor
     minimizer: [
       new TerserPlugin({
         terserOptions: {

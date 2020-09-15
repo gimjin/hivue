@@ -8,9 +8,5 @@ module.exports = {
   ],
   plugins: [
     'jsdoc'
-  ],
-  env: {
-    browser: true,
-    es6: true
-  }
+  ]
 }

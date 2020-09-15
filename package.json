@@ -5,8 +5,8 @@
   "author": "Kim",
   "license": "MIT",
   "scripts": {
-    "serve": "cross-env NODE_ENV=development webpack-dev-server --progress",
-    "build": "cross-env NODE_ENV=production webpack --progress",
+    "serve": "cross-env NODE_ENV=development ROUTER_MODE=history webpack-dev-server --progress",
+    "build": "cross-env NODE_ENV=production ROUTER_MODE=history webpack --progress",
     "check": "http-server ./dist -g -o --cors --proxy http://0.0.0.0:8080",
     "release": "standard-version"
   },
