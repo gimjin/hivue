@@ -5,6 +5,7 @@ import router from '@/router'
 import store from '@/store'
 import axios from '@/axios'
 import App from '@/App'
+import '@/assets/style.css'
 
 Vue.use(ElementUI)
 Vue.prototype.$axios = axios

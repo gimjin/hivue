@@ -17,6 +17,7 @@
 </template>
 
 <!-- Webapp NOT recommend write css in component -->
+<!-- Stylelint not support .vue file inline style -->
 <style lang="scss" scoped>
 .btn:hover {
   color: red;

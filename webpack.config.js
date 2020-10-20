@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const StylelintPlugin = require('stylelint-webpack-plugin')
 
 // Global setting
 const PROD_MODE = process.env.NODE_ENV === 'production'
@@ -94,19 +95,7 @@ module.exports = {
             options: {
               sourceMap: !PROD_MODE,
               postcssOptions: {
-                plugins: [
-                  require('autoprefixer')
-                ]
-              }
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  require('stylelint')
-                ]
+                plugins: ['autoprefixer']
               }
             }
           }
@@ -134,9 +123,7 @@ module.exports = {
             options: {
               sourceMap: !PROD_MODE,
               postcssOptions: {
-                plugins: [
-                  require('autoprefixer')
-                ]
+                plugins: ['autoprefixer']
               }
             }
           },
@@ -145,16 +132,6 @@ module.exports = {
             options: {
               sourceMap: !PROD_MODE,
               implementation: require('sass')
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  require('stylelint')
-                ]
-              }
             }
           }
         ]
@@ -183,6 +160,12 @@ module.exports = {
       PROD_MODE: PROD_MODE,
       ROUTER_MODE: JSON.stringify(ROUTER_MODE),
       ROUTER_BASE: JSON.stringify(ROUTER_BASE)
+    }),
+    new StylelintPlugin({
+      files: [
+        'src/**/*.vue',
+        'src/**/*.s?(a|c)ss'
+      ]
     }),
     new MiniCssExtractPlugin({
       filename: 'styles/[contenthash].css'
